@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react'
 import { StatusBar, View, SafeAreaView } from 'react-native'
-// import { PlaySound } from 'react-native-play-sound'
+import SoundPlayer from 'react-native-sound-player'
 import { updateTime } from './types'
 import Header from './Components/Header'
 import Timer from './Components/Timer'
@@ -36,7 +36,7 @@ const App = () => {
 
   const end = () => {
     setTime(5)
-    // PlaySound('bullfrog')
+    SoundPlayer.playSoundFile('bullfrog')
     setWorking(false)
   }
 
