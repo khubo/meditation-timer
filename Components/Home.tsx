@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { View, Button } from 'react-native'
 import useInterval from '@use-it/interval'
 import SoundPlayer from 'react-native-sound-player'
@@ -8,43 +8,51 @@ import { updateTime } from '../types'
 
 // nothing, yet!
 interface props {
-  navigation: any
+
 }
 
-function Home({ navigation }: props) {
+function Home() {
 
+  const totalTime: any = useRef() // persist across re-renders!!
   const [working, setWorking] = useState(false)
-  const [totalTime, setTime] = useState(6)
+  const [remainingTime, setTime] = useState(6)
+
+  useEffect(() => {
+    totalTime.current = remainingTime
+  }, [])
 
   const updateTimer = (type: updateTime) => {
-    console.log("time is ")
     type === updateTime.inc
-      ? setTime(time => time + 1)
-      : setTime(time => time - 1)
+      ? setTime(time => {
+        totalTime.current = time + 1
+        return totalTime.current
+      })
+      : setTime(time => {
+        totalTime.current = time - 1
+        return totalTime.current
+      })
   }
 
   useInterval(() => {
-    (totalTime > 1)
+    (remainingTime > 1)
       ? setTime(time => time - 1)
       : end()
-
   }, working ? 1000 : null)
 
-  const start = () => {
-    setWorking(true)
-  }
+  const start = () => setWorking(true)
+
 
 
   const end = () => {
     setWorking(false)
-    setTime(5)
+    setTime(totalTime.current)
     SoundPlayer.playSoundFile('bullfrog')
   }
 
   return (
     <View>
-      <Timer totalTime={totalTime} updateTimer={updateTimer} />
-      <Control start={start} end={end} disable={totalTime === 0} working={working} />
+      <Timer totalTime={remainingTime} updateTimer={updateTimer} />
+      <Control start={start} end={end} disable={remainingTime === 0} working={working} />
     </View>
   )
 }
