@@ -19,13 +19,13 @@ const App = () => {
   const updateTimer = (type: updateTime) => {
     type === updateTime.inc
       ? setTime(time => time + 1)
-      : setTime(time => time - 1 || time)
+      : setTime(time => time - 1)
   }
 
   useInterval(() => {
     (totalTime > 0)
       ? setTime(time => time - 1)
-      : setWorking(false)
+      : end()
 
   }, working ? 1000 : null)
 
