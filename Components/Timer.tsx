@@ -14,7 +14,10 @@ function Timer({ totalTime, updateTimer }: prop) {
   return (
     <View style={styles.container}>
       <View style={styles.button}>
-        <Button title='-' onPress={() => updateTimer(updateTime.dec)} color='#ff006e' />
+        <Button title='-' onPress={() => {
+          console.log("ths is called")
+          updateTimer(updateTime.dec)
+        }} color='#ff006e' />
       </View>
       <View>
         <Text style={styles.textContent}> {totalTime} </Text>

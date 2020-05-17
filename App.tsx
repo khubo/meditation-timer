@@ -1,54 +1,27 @@
 
-import React, { useState } from 'react'
-import { StatusBar, View, SafeAreaView } from 'react-native'
-import SoundPlayer from 'react-native-sound-player'
-import { updateTime } from './types'
+import 'react-native-gesture-handler'
+import React from 'react'
+import { StatusBar } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+
 import Header from './Components/Header'
-import Timer from './Components/Timer'
-import Control from './Components/Control'
-import useInterval from '@use-it/interval'
+import Home from './Components/Home'
+import LogSreen from './Components/LogScreen'
 
-
-enum test { }
+const Drawer = createDrawerNavigator()
 
 const App = () => {
-
-  const [working, setWorking] = useState(false)
-  const [totalTime, setTime] = useState(5)
-
-  const updateTimer = (type: updateTime) => {
-    type === updateTime.inc
-      ? setTime(time => time + 1)
-      : setTime(time => time - 1)
-  }
-
-  useInterval(() => {
-    (totalTime > 0)
-      ? setTime(time => time - 1)
-      : end()
-
-  }, working ? 1000 : null)
-
-  const start = () => {
-    setWorking(true)
-  }
-
-
-  const end = () => {
-    setTime(5)
-    SoundPlayer.playSoundFile('bullfrog')
-    setWorking(false)
-  }
-
   return (
-    <SafeAreaView>
+
+    <NavigationContainer>
       <StatusBar hidden />
-      <View>
-        <Header />
-        <Timer totalTime={totalTime} updateTimer={updateTimer} />
-        <Control start={start} end={end} disable={totalTime === 0} working={working} />
-      </View>
-    </SafeAreaView>
+      <Header />
+      <Drawer.Navigator initialRouteName='home'>
+        <Drawer.Screen name='home' component={Home} />
+        <Drawer.Screen name='log' component={LogSreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   )
 }
 

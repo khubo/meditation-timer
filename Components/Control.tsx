@@ -23,15 +23,15 @@ export default function Control({ start, end, disable, working }: prop) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
-
+    justifyContent: 'center',
+    width: '100%'
   },
   buttonContainer: {
     borderColor: 'white',
     borderWidth: 1,
-    flexGrow: 1
-
+    flexGrow: 1,
+    width: '100%'
   }
 })
